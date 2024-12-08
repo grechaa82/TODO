@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "API";
+
+package todo;
+
+service Todoer {
+	rpc GetAllTodo(TodoFilterRequest) returns (TodoListResponse);
+	rpc CreateTodo(TodoItemRequest) returns (TodoResponse);
+	rpc UpdateStatusTodo(UpdateStatusTodoRequest) returns (TodoResponse);
+	rpc DeleteTodo(TodoIdRequest) returns (TodoResponse);
+}
+
+message TodoFilterRequest {
+    bool isCompleted = 1;
+}
+
+message TodoItemRequest {
+    string title = 1;
+}
+
+message UpdateStatusTodoRequest {
+    int32 id = 1;
+    bool isCompleted = 2;
+}
+
+message TodoIdRequest {
+    int32 id = 1;
+}
+
+message TodoListResponse {
+    repeated TodoItemResponse items = 1;
+}
+
+message TodoResponse {
+    bool isSuccess = 1;
+    string message = 2;
+}
+
+message TodoItemResponse {
+    int32 id = 1;
+    string title = 2;
+    bool isCompleted = 3;
+    google.protobuf.Timestamp createdAt = 4;
+    google.protobuf.Timestamp completedAt = 5;
+}
